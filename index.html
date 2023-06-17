@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+    <label for="quantity">Prefix:</label><input type="text" id="Prefix" value="Exam  topic 1 question ">
+    <form>
+        <label for="quantity">From</label>
+        <input type="number" id="from" min="1" max="10" onchange="fromFun(this.value)">
+        <label for="quantity">to</label>
+        <input type="number" id="to"  min="2" max="9999" onchange="toFun(this.value)">
+    </form>
+    <label for="quantity">Suffix:</label><input type="text"id="Suffix" value=" discussion site:https://www.examtopics.com/discussions/">
+    <button onclick="list()">click</button>
+    <div id="div1">
+        <div id="container">
+        </div>
+    </div>
+</body>
+<script>
+function list(){
+    document.getElementById("container").remove();
+    let newDiv = document.createElement("div");
+    newDiv.id="container"
+    let currentDiv = document.getElementById("div1");
+    currentDiv.appendChild(newDiv);
+    for (let i = document.getElementById("from").value; i <= document.getElementById("to").value; i++) {
+        addElement (i)
+    }
+}
+
+function fromFun(){
+    fromid=document.getElementById("from");
+    toid=document.getElementById("to");   
+    if(toid.value==""){
+        toid.setAttribute("min",parseInt(fromid.value)+1);
+    }else{
+        if(toid.value>fromid.value){
+            toid.setAttribute("min",parseInt(fromid.value)+1);
+        }else{
+            fromid.value=toid.min
+        }
+    }
+
+}
+function toFun(){
+    fromid=document.getElementById("from");
+    toid=document.getElementById("to");
+    if(toid.value==""){
+        fromid.setAttribute("max",parseInt(toid.value)-1);
+    }else if(toid.value<2){
+       toid.value=2;
+    }
+    else{
+        if(toid.value>fromid.value){
+            fromid.setAttribute("max",parseInt(toid.value)-1);
+        }else{
+            toid.value=fromid.max
+        }
+    }
+}
+
+function addElement (i) {
+  let newDiv = document.createElement("div");
+  let newContent = document.createElement("a");
+  newContent.target="_blank";
+  let Prefix = document.getElementById("Prefix").value;
+  let Suffix = document.getElementById("Suffix").value;
+  contentValue="https://www.google.com/search?q="+Prefix.split(' ').join('+')+i+Suffix.split(' ').join('+');
+  newContent.innerHTML=contentValue
+  newContent.href=contentValue;
+  newDiv.appendChild(newContent);
+  let currentDiv = document.getElementById("container");
+  currentDiv.appendChild(newDiv);
+}
+
+</script>
+</html>
